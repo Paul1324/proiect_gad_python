@@ -1,0 +1,110 @@
+<style>
+  @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+
+  .search {
+    width: 100%;
+    position: relative;
+    display: flex;
+  }
+
+  .searchTerm {
+    width: 100%;
+    background-color: #3C3C3F;
+    text-emphasis-color: #FFFFFF;
+    border: 3px solid #010223;
+    border-right: none;
+    padding: 5px;
+    height: 36px;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #FFFFFF;
+  }
+
+  .searchTerm:focus {
+    color: #FFFFFF;
+  }
+
+  .searchButton {
+    width: 40px;
+    height: 36px;
+    border: 1px solid #010223;
+    background: #010223;
+    text-align: center;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    font-size: 20px;
+  }
+
+  /*Resize the wrap to see the search bar change!*/
+  .wrap {
+    width: 30%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .img_profile {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+
+  }
+
+  body {
+    background-image: linear-gradient(to right top, #000230, #17175c, #442188, #7822b1, #b50bd6);
+    font-family: 'Open Sans', sans-serif;
+    text-emphasis-color: white;
+  }
+</style>
+
+<head>
+  {% load static %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+</head>
+<div class="wrap" style=" position: fixed;
+width: 500px;
+height: auto;
+top: 50%;
+left: 60%;
+margin-top: -100px;
+margin-left: -250px; ">
+
+  <img src="{% static 'github_logo.jpg' %}" alt="logo" style="width:100%;height:auto"></img>
+  <br></br>
+  <form method="POST" class="search" action="">
+    {% csrf_token %}
+    <input type="text" label="username" class="searchTerm" placeholder="{{search_placeholder}}" name="search">
+    <button type="submit" class="searchButton">
+      <i class="fa fa-search"></i>
+    </button>
+</div>
+
+</form>
+<div style="position: fixed;
+  bottom: 0;
+  left:0;
+  ">
+  {% if profiles %}
+  <ul style="display:flex; align-items:center">
+    {% for profile in profiles %}
+    <li class="btn btn-success profile-item" ,
+      style="background-image: linear-gradient(to right top, #000029, #0c022e, #170432, #210335, #2d0036); border:3px solid #010223">
+      <img src="{{profile.image}}" alt="profile" class="profile-image img_profile" />
+      <a>{{profile.username}}</a>
+      <form action="" method="POST">
+        {% csrf_token %}
+        <button type="submit" name="go_to_profile" value="{{profile.username}}" style="background-color:#3C3C3F">
+          <i class="fa-solid fa-arrow-right" style="background-color:#3C3C3F; color:white"></i>
+        </button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+</div>
